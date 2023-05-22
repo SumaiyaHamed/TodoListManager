@@ -15,4 +15,7 @@ public interface TodoRepository extends JpaRepository<Todo ,Integer > {
 
     @Query(value = "Select s from Todo s Where s.id = :todoOId")
     Todo retrieveSingleTodoList(@Param("todoOId") Integer id);
+
+    @Query(value ="select s from Todo s where s.updatedDate=(select max(s.updatedDate) from Todo s)")
+    Todo getLatestUpdated();
 }

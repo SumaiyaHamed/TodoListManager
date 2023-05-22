@@ -3,12 +3,13 @@ package com.TodoListManager.TodoListManager.Service;
 import com.TodoListManager.TodoListManager.Model.Todo;
 import com.TodoListManager.TodoListManager.Repository.TodoRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
 
 import static org.springframework.data.jpa.domain.AbstractPersistable_.id;
-
+@Component
 @Service
 public class TodoService {
 
@@ -56,4 +57,12 @@ TodoRepository todoRepository;
         Todo todo = todoRepository.retrieveSingleTodoList(id);
         return  todo;
     }
+
+
+    public Todo getLatestUpdated() {
+
+
+        return todoRepository.getLatestUpdated();
+    }
+
 }

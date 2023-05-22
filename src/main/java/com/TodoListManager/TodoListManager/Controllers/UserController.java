@@ -15,6 +15,10 @@ public class UserController {
     @Autowired
     UserService userService;
 
+    //    User Registration:
+//    Endpoint: POST /api/register
+//    Request Payload: { "username": "john", "password": "password123" }
+
     @RequestMapping(value = "addUser", method = RequestMethod.POST)
     public String addUser(@RequestBody User user) {
         try {

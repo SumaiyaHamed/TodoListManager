@@ -4,6 +4,7 @@ import com.TodoListManager.TodoListManager.Model.Todo;
 import com.TodoListManager.TodoListManager.Model.User;
 import com.TodoListManager.TodoListManager.Repository.TodoRepository;
 import com.TodoListManager.TodoListManager.Service.TodoService;
+import com.TodoListManager.TodoListManager.SlackClient.SlackClient;
 import org.apache.tomcat.util.net.openssl.ciphers.Authentication;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.repository.query.Param;
@@ -17,6 +18,15 @@ import java.util.List;
 public class TodoController {
 @Autowired
     TodoService todoService;
+
+    @Autowired
+    SlackClient slackClient;
+
+//_______________________________________________________________________________________________
+//    Todo Creation:
+//    Endpoint: POST /api/todos
+//    Request Payload: { "title": "Buy groceries", "description": "Milk, eggs, bread" }
+
     @RequestMapping(value = "addList", method = RequestMethod.POST)
     public String addList(@RequestBody Todo todo) {
         try {
@@ -26,13 +36,20 @@ public class TodoController {
             return "List added Failed";
         }  }
 
+    //_______________________________________________________________________________________________
+//    Todo Retrieval (All todos):
+//    Endpoint: GET /api/todos
+//Response Payload: [{ "id": 1, "title": "Buy groceries", "description": "Milk, eggs, bread", "completed": false }]
 
     @RequestMapping(value = "retrieveAllTodoList", method = RequestMethod.GET)
     public List<Todo> retrieveAllTodoList(@RequestParam Integer userid){
 
         return todoService.retrieveAllTodoList();
     }
-
+//_______________________________________________________________________________________________
+//    Todo Deletion:
+//    Endpoint: DELETE /api/todos/{todoId}
+//    Response: 204 No Content
 
     @RequestMapping(value = "deleteTodoList", method = RequestMethod.POST)
     public String deleteTodoList(Integer id) {
@@ -44,6 +61,12 @@ public class TodoController {
             return "TodoList delete failed";
         }
     }
+//_______________________________________________________________________________________________
+
+//    Todo Update:
+//    Endpoint: PUT /api/todos/{todoId}
+//    Request Payload: { "completed": true }
+//    Response: 200 OK
 
     @RequestMapping(value = "updateTodo", method = RequestMethod.POST)
     public String updateTodo(@RequestBody Todo todo) {
@@ -54,19 +77,37 @@ public class TodoController {
             return "List Update Failed";
         }  }
 
-
-//    @RequestMapping(value = "retrieveSingleTodoList", method = RequestMethod.GET)
-//    public List<Todo> retrieveSingleTodoList(@RequestParam Integer userid){
-//
-//        return todoService.retrieveSingleTodoList();
-//    }
+//_______________________________________________________________________________________________
 
 
+//    Todo Retrieval (Single todo):
+//    Endpoint: GET /api/todos/{todoId}
+//    Response: 200 OK
+//    Response Payload: { "id": 1, "title": "Buy groceries", "description": "Milk, eggs, bread", "completed": false }
     @RequestMapping(value = "retrieveSingleTodoList", method = RequestMethod.GET)
     public Todo retrieveSingleTodoList(@RequestParam Integer id){
         Todo todo = todoService.retrieveSingleTodoList(id);
         return todo;
     }
 
+
+    //_______________________________________________________________________________________________
+//    CRON Job:
+//    Endpoint: POST /api/cron/updateWeatherData
+//    Response: 200 OK
+
+    @RequestMapping(value = "getLatestUpdated", method = RequestMethod.GET)
+
+    public Todo getLatestUpdated() {
+        Todo todo = todoService.getLatestUpdated();
+
+        slackClient.sendMessage("+++ TodoList/getLatestUpdated +++");
+
+
+        slackClient.sendMessage("Todo Id is:" + todo.getId() + "\t Todo Title is :" + todo.getTitle() +
+                "\t Todo Description is  :" + todo.getDescription()+ "\t Todo Completed  :" + todo.getCompleted());
+        return todo;
+
+    }
 
 }
