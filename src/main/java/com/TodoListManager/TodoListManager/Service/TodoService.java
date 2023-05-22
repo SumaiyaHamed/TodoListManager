@@ -59,10 +59,10 @@ TodoRepository todoRepository;
     }
 
 
-    public Todo getLatestUpdated() {
-
-
-        return todoRepository.getLatestUpdated();
-    }
+//    public Todo getLatestUpdated() {
+//
+//
+//        return todoRepository.getLatestUpdated();
+//    }
 
 }

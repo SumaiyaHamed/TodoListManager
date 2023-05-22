@@ -96,18 +96,18 @@ public class TodoController {
 //    Endpoint: POST /api/cron/updateWeatherData
 //    Response: 200 OK
 
-    @RequestMapping(value = "getLatestUpdated", method = RequestMethod.GET)
-
-    public Todo getLatestUpdated() {
-        Todo todo = todoService.getLatestUpdated();
-
-        slackClient.sendMessage("+++ TodoList/getLatestUpdated +++");
-
-
-        slackClient.sendMessage("Todo Id is:" + todo.getId() + "\t Todo Title is :" + todo.getTitle() +
-                "\t Todo Description is  :" + todo.getDescription()+ "\t Todo Completed  :" + todo.getCompleted());
-        return todo;
-
-    }
+//    @RequestMapping(value = "getLatestUpdated", method = RequestMethod.GET)
+//
+//    public Todo getLatestUpdated() {
+//        Todo todo = todoService.getLatestUpdated();
+//
+//        slackClient.sendMessage("+++ TodoList/getLatestUpdated +++");
+//
+//
+//        slackClient.sendMessage("Todo Id is:" + todo.getId() + "\t Todo Title is :" + todo.getTitle() +
+//                "\t Todo Description is  :" + todo.getDescription()+ "\t Todo Completed  :" + todo.getCompleted());
+//        return todo;
+//
+//    }
 
 }

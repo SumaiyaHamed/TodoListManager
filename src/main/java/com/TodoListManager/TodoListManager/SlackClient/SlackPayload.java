@@ -8,10 +8,10 @@ import lombok.Setter;
 @Getter
 @Setter
 public class SlackPayload {
-
-    private String text;
-
-    public SlackPayload(String text){
-        this.text = text;
-    }
+//
+//    private String text;
+//
+//    public SlackPayload(String text){
+//        this.text = text;
+//    }
 }
